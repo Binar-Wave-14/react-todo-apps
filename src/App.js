@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import TextInput from './components/TextInput';
 
 function App() {
+  const [data, setData] = useState({
+    name: 'Indonesia',
+    textName: ''
+  })
+
+  const onChangeText = (e) => {
+    setData({
+      ...data,
+      textName: e.target.value
+    })
+  }
+
+  const onSubmit = () => {
+    setData({
+      ...data,
+      name: data.textName,
+      textName: ''
+    })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h5>Hello {data.name}</h5>
+      <TextInput textName={data.textName} onChangeText={onChangeText} onSubmit={onSubmit} />
     </div>
   );
 }
