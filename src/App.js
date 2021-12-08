@@ -1,34 +1,53 @@
-import './App.css';
-import { useState } from 'react';
-import TextInput from './components/TextInput';
+import './App.css'
+import {useState} from 'react';
+import {Button, List, Stack, TextField} from '@mui/material';
+import {TodoItem} from './components/todo-item.component';
 
-function App() {
-  const [data, setData] = useState({
-    name: 'Indonesia',
-    textName: ''
-  })
+const App = () => {
+  const [todos, setTodos] = useState([
+    {
+      id: 1,
+      todo: 'makan'
+    },
+    {
+      id: 2,
+      todo: 'minum'
+    }
+  ])
+  const [tmpTodo, setTmpTodo] = useState('')
 
-  const onChangeText = (e) => {
-    setData({
-      ...data,
-      textName: e.target.value
-    })
+  const onClick = () => {
+    setTodos([
+      ...todos,
+      {
+        id: Date.now(),
+        todo: tmpTodo
+      }
+    ])
+    setTmpTodo('')
   }
 
-  const onSubmit = () => {
-    setData({
-      ...data,
-      name: data.textName,
-      textName: ''
-    })
+  const onDelete = (id) => (e) => {
+    setTodos([...todos].filter(todo => todo.id !== id))
   }
 
   return (
-    <div>
-      <h5>Hello {data.name}</h5>
-      <TextInput textName={data.textName} onChangeText={onChangeText} onSubmit={onSubmit} />
+    <div className="container">
+      <Stack spacing={5} sx={{ width: 300 }}>
+        <div>
+          <List dense={true}>
+            {
+              todos.map(todo => (
+                <TodoItem key={todo.id} todo={todo.todo} id={todo.id} onDelete={onDelete} />
+              ))
+            }
+          </List>
+        </div>
+        <TextField id="outlined-basic" label="Todo" variant="outlined" className="submit-container" size="small" value={tmpTodo} onChange={(e) => setTmpTodo(e.target.value)} />
+        <Button size="small" variant="contained" className="submit-container" onClick={onClick}>Submit</Button>
+      </Stack>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
