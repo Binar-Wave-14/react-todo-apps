@@ -1,53 +1,58 @@
-import './App.css'
-import {useState} from 'react';
-import {Button, List, Stack, TextField} from '@mui/material';
-import {TodoItem} from './components/todo-item.component';
+import React, { useState } from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Home from './pages/home.page';
+import { Todo } from './pages/todo.page';
 
 const App = () => {
   const [todos, setTodos] = useState([
     {
       id: 1,
-      todo: 'makan'
+      todo: 'makan',
+      description: 'makan sambil lari lari'
     },
     {
       id: 2,
-      todo: 'minum'
+      todo: 'minum',
+      description: 'minum akub'
     }
   ])
-  const [tmpTodo, setTmpTodo] = useState('')
+  const [tmpTodo, setTmpTodo] = useState({
+    todo: '',
+    description: ''
+  })
 
-  const onClick = () => {
+  const onCreate = () => {
     setTodos([
       ...todos,
       {
         id: Date.now(),
-        todo: tmpTodo
+        todo: tmpTodo.todo,
+        description: tmpTodo.description
       }
     ])
-    setTmpTodo('')
+    setTmpTodo({
+      todo: '',
+      description: ''
+    })
   }
 
   const onDelete = (id) => (e) => {
-    setTodos([...todos].filter(todo => todo.id !== id))
+    const newTodos = [...todos].filter(todo => todo.id !== id)
+    setTodos(newTodos)
   }
 
   return (
-    <div className="container">
-      <Stack spacing={5} sx={{ width: 300 }}>
-        <div>
-          <List dense={true}>
-            {
-              todos.map(todo => (
-                <TodoItem key={todo.id} todo={todo.todo} id={todo.id} onDelete={onDelete} />
-              ))
-            }
-          </List>
-        </div>
-        <TextField id="outlined-basic" label="Todo" variant="outlined" className="submit-container" size="small" value={tmpTodo} onChange={(e) => setTmpTodo(e.target.value)} />
-        <Button size="small" variant="contained" className="submit-container" onClick={onClick}>Submit</Button>
-      </Stack>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home todos={todos} onDelete={onDelete} />} />
+        <Route path="/todo" element={<Todo onCreate={onCreate} setTmpTodo={setTmpTodo} tmpTodo={tmpTodo} />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
 export default App
+
+// routing, kirim props
+// penempatan method
+// on delete kenapa beda

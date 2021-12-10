@@ -6,7 +6,7 @@ export const TodoItem = (props) => {
     return (
         <div className={styles.container}>
             <ListItem>
-                <ListItemText primary={props.todo} />
+                <ListItemText primary={`${props.todo} (${props.description})`} />
             </ListItem>
             <IconButton aria-label="delete" onClick={props.onDelete(props.id)} color="primary" >
                 <Delete fontSize="small"/>
