@@ -16,6 +16,7 @@ export const Todo = (props) => {
                 ...props.tmpTodo,
                 todo: e.target.value
             })}
+            value={props.tmpTodo.todo}
         />
         <TextField 
             id="outlined-basic" 
@@ -29,6 +30,7 @@ export const Todo = (props) => {
                 ...props.tmpTodo,
                 description: e.target.value
             })}
+            value={props.tmpTodo.description}
         />
         
         <Button size="small" variant="contained" className="submit-container">
